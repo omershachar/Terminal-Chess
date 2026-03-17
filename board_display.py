@@ -1,13 +1,13 @@
 import chess
 
-# Unicode piece symbols
+# Pure ASCII piece symbols — uppercase=White, lowercase=Black
 PIECE_SYMBOLS = {
-    chess.PAWN:   {chess.WHITE: "♙", chess.BLACK: "♟"},
-    chess.KNIGHT: {chess.WHITE: "♘", chess.BLACK: "♞"},
-    chess.BISHOP: {chess.WHITE: "♗", chess.BLACK: "♝"},
-    chess.ROOK:   {chess.WHITE: "♖", chess.BLACK: "♜"},
-    chess.QUEEN:  {chess.WHITE: "♕", chess.BLACK: "♛"},
-    chess.KING:   {chess.WHITE: "♔", chess.BLACK: "♚"},
+    chess.PAWN:   {chess.WHITE: "P", chess.BLACK: "p"},
+    chess.KNIGHT: {chess.WHITE: "N", chess.BLACK: "n"},
+    chess.BISHOP: {chess.WHITE: "B", chess.BLACK: "b"},
+    chess.ROOK:   {chess.WHITE: "R", chess.BLACK: "r"},
+    chess.QUEEN:  {chess.WHITE: "Q", chess.BLACK: "q"},
+    chess.KING:   {chess.WHITE: "K", chess.BLACK: "k"},
 }
 
 # ANSI colors
