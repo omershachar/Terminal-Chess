@@ -1,13 +1,14 @@
 import chess
 
-# Pure ASCII piece symbols — uppercase=White, lowercase=Black
+# Unicode chess symbols with VS15 (U+FE0E) to force text presentation (no emoji)
+VS15 = "\uFE0E"
 PIECE_SYMBOLS = {
-    chess.PAWN:   {chess.WHITE: "P", chess.BLACK: "p"},
-    chess.KNIGHT: {chess.WHITE: "N", chess.BLACK: "n"},
-    chess.BISHOP: {chess.WHITE: "B", chess.BLACK: "b"},
-    chess.ROOK:   {chess.WHITE: "R", chess.BLACK: "r"},
-    chess.QUEEN:  {chess.WHITE: "Q", chess.BLACK: "q"},
-    chess.KING:   {chess.WHITE: "K", chess.BLACK: "k"},
+    chess.PAWN:   {chess.WHITE: "♙" + VS15, chess.BLACK: "♟" + VS15},
+    chess.KNIGHT: {chess.WHITE: "♘" + VS15, chess.BLACK: "♞" + VS15},
+    chess.BISHOP: {chess.WHITE: "♗" + VS15, chess.BLACK: "♝" + VS15},
+    chess.ROOK:   {chess.WHITE: "♖" + VS15, chess.BLACK: "♜" + VS15},
+    chess.QUEEN:  {chess.WHITE: "♕" + VS15, chess.BLACK: "♛" + VS15},
+    chess.KING:   {chess.WHITE: "♔" + VS15, chess.BLACK: "♚" + VS15},
 }
 
 # ANSI colors
