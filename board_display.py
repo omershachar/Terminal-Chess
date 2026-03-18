@@ -1,24 +1,24 @@
 import chess
 
-# Unicode chess symbols — use filled glyphs for both sides to avoid emoji rendering.
-# White vs black is distinguished by ANSI text color, not glyph style.
+# Outlined (white) Unicode chess glyphs U+2654–U+2659 for both sides.
+# These do NOT have emoji presentation status, so they render as text in terminals.
+# White vs black is distinguished by ANSI foreground color.
 PIECE_SYMBOLS = {
-    chess.PAWN:   "♟︎",
-    chess.KNIGHT: "♞︎",
-    chess.BISHOP: "♝︎",
-    chess.ROOK:   "♜︎",
-    chess.QUEEN:  "♛︎",
-    chess.KING:   "♚︎",
+    chess.KING:   "\u2654",  # ♔
+    chess.QUEEN:  "\u2655",  # ♕
+    chess.ROOK:   "\u2656",  # ♖
+    chess.BISHOP: "\u2657",  # ♗
+    chess.KNIGHT: "\u2658",  # ♘
+    chess.PAWN:   "\u2659",  # ♙
 }
 
-# ANSI colors
+# ANSI colors — lighter backgrounds so pieces stand out
 RESET = "\033[0m"
-LIGHT_SQ = "\033[48;2;120;100;80m"   # muted dark tan
-DARK_SQ = "\033[48;2;70;55;40m"     # deep brown
-HIGHLIGHT = "\033[48;2;100;100;50m" # dim olive highlight for last move
-WHITE_PC = "\033[38;5;255m"  # bright white text
-BLACK_PC = "\033[38;5;232m"  # near-black text
-BOLD = "\033[1m"
+LIGHT_SQ = "\033[48;2;180;160;130m"  # warm light tan
+DARK_SQ = "\033[48;2;120;90;60m"    # warm brown
+HIGHLIGHT = "\033[48;2;170;170;80m"  # soft yellow highlight for last move
+WHITE_PC = "\033[1;38;2;255;255;255m"  # bold bright white
+BLACK_PC = "\033[1;38;2;30;30;30m"     # bold near-black
 
 
 def piece_char(piece):
@@ -42,29 +42,47 @@ def print_board(board, flipped=False, last_move=None):
     ranks = range(8) if flipped else range(7, -1, -1)
     files = range(7, -1, -1) if flipped else range(8)
 
+    # Each square is 5 chars wide, 3 lines tall for a square aspect ratio
     print()
     for rank in ranks:
+        # Top padding line
+        print("   ", end="")
+        for file in files:
+            sq = chess.square(file, rank)
+            bg = _sq_bg(sq, rank, file, highlight_squares)
+            print(f"{bg}     {RESET}", end="")
+        print()
+
+        # Middle line with piece
         print(f" {rank + 1} ", end="")
         for file in files:
             sq = chess.square(file, rank)
             piece = board.piece_at(sq)
-            is_light = (rank + file) % 2 == 1
-
-            if sq in highlight_squares:
-                bg = HIGHLIGHT
-            elif is_light:
-                bg = LIGHT_SQ
-            else:
-                bg = DARK_SQ
-
+            bg = _sq_bg(sq, rank, file, highlight_squares)
             pc = piece_color(piece)
             ch = piece_char(piece)
-            print(f"{bg}{pc} {ch} {RESET}", end="")
+            print(f"{bg}{pc}  {ch}  {RESET}", end="")
+        print()
+
+        # Bottom padding line
+        print("   ", end="")
+        for file in files:
+            sq = chess.square(file, rank)
+            bg = _sq_bg(sq, rank, file, highlight_squares)
+            print(f"{bg}     {RESET}", end="")
         print()
 
     file_labels = "abcdefgh" if not flipped else "hgfedcba"
-    print("   " + "".join(f" {c} " for c in file_labels))
+    print("   " + "".join(f"  {c}  " for c in file_labels))
     print()
+
+
+def _sq_bg(sq, rank, file, highlight_squares):
+    if sq in highlight_squares:
+        return HIGHLIGHT
+    if (rank + file) % 2 == 1:
+        return LIGHT_SQ
+    return DARK_SQ
 
 
 def print_status(board):
