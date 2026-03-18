@@ -17,29 +17,28 @@ def get_promotion_piece():
 
 
 def parse_move(board, text):
-    text = text.strip().lower()
+    text = text.strip()
 
-    # Try UCI format (e.g. e2e4)
+    # Try UCI format (e.g. e2e4) — UCI is case-insensitive
     try:
-        move = chess.Move.from_uci(text)
+        move = chess.Move.from_uci(text.lower())
         if move in board.legal_moves:
             return move
     except ValueError:
         pass
 
-    # Try SAN format (e.g. Nf3, O-O)
+    # Try SAN format (e.g. Nf3, O-O) — SAN is case-sensitive
     try:
         move = board.parse_san(text)
-        if move in board.legal_moves:
-            return move
-    except ValueError:
+        return move
+    except (ValueError, chess.InvalidMoveError, chess.IllegalMoveError, chess.AmbiguousMoveError):
         pass
 
     # Check if it's a pawn promotion without specifying piece
     if len(text) == 4:
         for suffix in ["q", "r", "b", "n"]:
             try:
-                move = chess.Move.from_uci(text + suffix)
+                move = chess.Move.from_uci(text.lower() + suffix)
                 if move in board.legal_moves:
                     piece = get_promotion_piece()
                     return chess.Move.from_uci(text + {

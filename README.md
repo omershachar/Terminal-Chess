@@ -1,6 +1,6 @@
 # Terminal Chess
 
-A fully playable chess game in your terminal with colored board, Unicode pieces, and AI opponent.
+A fully playable chess game in your terminal with ANSI-colored board, Unicode pieces, move history sidebar, and AI opponent.
 
 ## Setup
 
