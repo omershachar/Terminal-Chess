@@ -1,21 +1,21 @@
 import chess
 
-# Unicode chess symbols with VS15 (U+FE0E) to force text presentation (no emoji)
-VS15 = "\uFE0E"
+# Unicode chess symbols — use filled glyphs for both sides to avoid emoji rendering.
+# White vs black is distinguished by ANSI text color, not glyph style.
 PIECE_SYMBOLS = {
-    chess.PAWN:   {chess.WHITE: "♙" + VS15, chess.BLACK: "♟" + VS15},
-    chess.KNIGHT: {chess.WHITE: "♘" + VS15, chess.BLACK: "♞" + VS15},
-    chess.BISHOP: {chess.WHITE: "♗" + VS15, chess.BLACK: "♝" + VS15},
-    chess.ROOK:   {chess.WHITE: "♖" + VS15, chess.BLACK: "♜" + VS15},
-    chess.QUEEN:  {chess.WHITE: "♕" + VS15, chess.BLACK: "♛" + VS15},
-    chess.KING:   {chess.WHITE: "♔" + VS15, chess.BLACK: "♚" + VS15},
+    chess.PAWN:   "♟︎",
+    chess.KNIGHT: "♞︎",
+    chess.BISHOP: "♝︎",
+    chess.ROOK:   "♜︎",
+    chess.QUEEN:  "♛︎",
+    chess.KING:   "♚︎",
 }
 
 # ANSI colors
 RESET = "\033[0m"
-LIGHT_SQ = "\033[48;5;223m"  # light tan background
-DARK_SQ = "\033[48;5;137m"   # brown background
-HIGHLIGHT = "\033[48;5;228m" # yellow highlight for last move
+LIGHT_SQ = "\033[48;2;120;100;80m"   # muted dark tan
+DARK_SQ = "\033[48;2;70;55;40m"     # deep brown
+HIGHLIGHT = "\033[48;2;100;100;50m" # dim olive highlight for last move
 WHITE_PC = "\033[38;5;255m"  # bright white text
 BLACK_PC = "\033[38;5;232m"  # near-black text
 BOLD = "\033[1m"
@@ -24,7 +24,7 @@ BOLD = "\033[1m"
 def piece_char(piece):
     if piece is None:
         return " "
-    return PIECE_SYMBOLS[piece.piece_type][piece.color]
+    return PIECE_SYMBOLS[piece.piece_type]
 
 
 def piece_color(piece):
